@@ -117,6 +117,7 @@ int main(){
     void inputMahasiswa(){
         struct structMahasiswa mahasiswaBaru;
         bool mahasiswaTersedia = false;
+        bool inputNimError = false;
 
         system("cls");
         printf("Input Mahasiswa\n");
@@ -125,6 +126,7 @@ int main(){
         
         do {
             if (mahasiswaTersedia == 1) printf("\nNIM sudah tersedia. Masukkan NIM baru\n");
+            if (inputNimError == 1) printf("\nNIM harus berupa angka\n");
             printf("NIM: ");
             scanf(" %[^\n]s", &mahasiswaBaru.nim);
 
@@ -138,7 +140,13 @@ int main(){
                     }
                 }
             }
-        } while (mahasiswaTersedia == 1);
+
+            //Cek NIM harus berupa angka
+            if (strcmp(mahasiswaBaru.nim, "0") != 0 && atoi(mahasiswaBaru.nim) == 0)
+                inputNimError = true;
+            else inputNimError = false;
+
+        } while (mahasiswaTersedia == 1 || inputNimError == 1);
 
         printf("Nama Lengkap: ");
         scanf(" %[^\n]s", &mahasiswaBaru.nama);
@@ -196,12 +204,13 @@ int main(){
 
             int inputNilai(char* teksInput){
                 char input[4];
-
+                bool inputError = false;
                 do {
-                    if ((strcmp(input, "0") != 0 && atoi(input) <= 0) || atoi(input) > 100)
+                    if (inputError && ((strcmp(input, "0") != 0 && atoi(input) <= 0) || atoi(input) > 100))
                         printf("\n%s harus berupa angka antara 0 - 100\n", teksInput);
                     printf("%s: ", teksInput);
                     scanf(" %[^\n]s", input);
+                    inputError = true;
                 } while ((strcmp(input, "0") != 0 && atoi(input) <= 0) || atoi(input) > 100);
 
                 return atoi(input);
@@ -221,7 +230,7 @@ int main(){
         kembaliAtauTetap("Input Nilai Mahasiswa");
     }
 
-    //Menu 2 : Input Nilai Mahasiswa -----------------------------------------
+    //Menu 3 : Nilai dan Status Mahasiswa -----------------------------------------
     void nilaiDanStatusMahasiswa(){
         char inputNim[20] = "";
         bool mahasiswaDitemukan = false;
@@ -293,7 +302,7 @@ int main(){
         }
 
         //Kembali Atau Tetap di Menu
-        kembaliAtauTetap("Input Nilai Mahasiswa");
+        kembaliAtauTetap("Nilai & Status Mahasiswa");
     }
 
     //Navigasi ---------------------------------------------------------------
